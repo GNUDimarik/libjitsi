@@ -2720,8 +2720,15 @@ public class MediaStreamImpl
 
         // Require AbstractMediaDevice for MediaDeviceSession support.
         AbstractMediaDevice abstractMediaDevice = (AbstractMediaDevice) device;
+        AbstractMediaDevice currentDevice = deviceSession == null ? null : deviceSession.getDevice();
+        boolean newDevice = currentDevice != device;
 
-        if ((deviceSession == null) || (deviceSession.getDevice() != device))
+        if (abstractMediaDevice != null && currentDevice != null)
+        {
+            newDevice = !abstractMediaDevice.areDevicesEqual(currentDevice);
+        }
+
+        if ((deviceSession == null) || newDevice)
         {
             assertDirection(direction, device.getDirection(), "device");
 

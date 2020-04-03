@@ -105,8 +105,6 @@ public class VideoTranslatorMediaDevice
             }
             deviceSession = null;
         }
-        else
-            updateDeviceSessionStartedDirection();
     }
 
     /**
@@ -357,6 +355,20 @@ public class VideoTranslatorMediaDevice
     }
 
     /**
+     * Returns true if device uses the same real device like media device
+     */
+    @Override
+    public boolean areDevicesEqual(MediaDevice device)
+    {
+        if (this.device != null)
+        {
+            return this.device.equals(device);
+        }
+
+        return false;
+    }
+
+    /**
      * Represents the use of this <tt>VideoTranslatorMediaDevice</tt> by a
      * <tt>MediaStream</tt>.
      */
@@ -483,11 +495,29 @@ public class VideoTranslatorMediaDevice
                 MediaDirection newValue)
         {
             super.startedDirectionChanged(oldValue, newValue);
-
-            VideoTranslatorMediaDevice.this
-                    .updateDeviceSessionStartedDirection();
         }
 
+        @Override
+        public void start(MediaDirection direction)
+        {
+            super.start(direction);
+
+            if (deviceSession != null)
+            {
+                deviceSession.start(direction);
+}
+         }
+
+        @Override
+        public void stop(MediaDirection direction)
+        {
+            super.stop(direction);
+
+            if (deviceSession != null)
+            {
+                deviceSession.stop(direction);
+            }
+        }
         /**
          * {@inheritDoc}
          * Returns the local visual <tt>Component</tt> for this

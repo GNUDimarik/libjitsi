@@ -171,4 +171,13 @@ public abstract class AbstractMediaDevice
     {
         return getSupportedFormats(null, null);
     }
+
+    /**
+     * Returns true if device uses the same real device like media device
+     * default implementation just returns false
+     */
+    public boolean areDevicesEqual(MediaDevice device)
+    {
+        return false;
+    }
 }
